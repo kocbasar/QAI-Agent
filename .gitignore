@@ -1,0 +1,49 @@
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.*
+secrets/
+secrets.*
+
+# Virtual environments and Python bytecode
+.venv/
+venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Test, coverage, and static-analysis caches
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+
+# Packaging and build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+
+# Runtime data and logs
+*.db
+*.sqlite3
+*.log
+artifacts/
+
+# Editor and operating-system metadata
+.idea/
+.vscode/
+.DS_Store
