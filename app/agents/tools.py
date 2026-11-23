@@ -38,7 +38,8 @@ class ToolRegistry:
                     "description": (
                         "Read a Jira issue including its "
                         "summary, description, status, "
-                        "issue type and labels."
+                        "issue type, labels, components, "
+                        "assignee and environment."
                     ),
                     "parameters": {
                         "type": "object",

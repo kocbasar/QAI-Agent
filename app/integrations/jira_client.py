@@ -23,6 +23,9 @@ class JiraIssueContext:
     status: str
     issue_type: str
     labels: list[str]
+    components: list[str]
+    assignee: str | None
+    environment: str
 
 
 def adf_to_text(node: Any) -> str:
@@ -125,7 +128,8 @@ class JiraClient:
                 params={
                     "fields": (
                         "summary,description,status,"
-                        "issuetype,labels"
+                        "issuetype,labels,components,"
+                        "assignee,environment"
                     )
                 },
             )
@@ -143,6 +147,19 @@ class JiraClient:
         description = adf_to_text(
             fields.get("description")
         ).strip()
+        environment = adf_to_text(
+            fields.get("environment")
+        ).strip()
+        components = [
+            component["name"].strip()
+            for component in fields.get("components") or []
+            if (
+                isinstance(component, dict)
+                and isinstance(component.get("name"), str)
+                and component["name"].strip()
+            )
+        ]
+        assignee = fields.get("assignee") or {}
 
         return JiraIssueContext(
             key=data["key"],
@@ -153,6 +170,13 @@ class JiraClient:
                 "issuetype", {}
             ).get("name", ""),
             labels=fields.get("labels") or [],
+            components=components,
+            assignee=(
+                assignee.get("displayName")
+                if isinstance(assignee, dict)
+                else None
+            ),
+            environment=environment,
         )
 
     def close(self):

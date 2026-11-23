@@ -39,6 +39,14 @@ class Settings(BaseSettings):
     )
     llm_model: str = "medium_llm"
 
+    # UI test environment
+    ui_test_base_url: str | None = None
+    ui_test_username: str | None = None
+    ui_test_password: str | None = Field(
+        default=None,
+        repr=False,
+    )
+
     # Agent execution limits
     agent_max_steps: int = Field(
         default=4,

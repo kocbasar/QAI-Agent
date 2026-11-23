@@ -16,6 +16,9 @@ MOCK_ISSUE = {
         "status": {"name": "TEST"},
         "issuetype": {"name": "Story"},
         "labels": ["frontend", "checkout"],
+        "components": [{"name": "Web Platform"}],
+        "assignee": {"displayName": "Test User"},
+        "environment": "TEST",
         "description": {
             "type": "doc",
             "version": 1,
@@ -69,7 +72,10 @@ def test_get_issue():
         assert request.url.path.endswith(
             "/rest/api/3/issue/WEB-342"
         )
-        assert request.url.params["fields"]
+        requested_fields = request.url.params["fields"]
+        assert "components" in requested_fields
+        assert "assignee" in requested_fields
+        assert "environment" in requested_fields
 
         return httpx.Response(
             status_code=200,
@@ -93,6 +99,9 @@ def test_get_issue():
     assert issue.issue_type == "Story"
     assert "Kupon uygulanabilmeli." in issue.description
     assert issue.labels == ["frontend", "checkout"]
+    assert issue.components == ["Web Platform"]
+    assert issue.assignee == "Test User"
+    assert issue.environment == "TEST"
 
 
 def test_jira_api_failure():
